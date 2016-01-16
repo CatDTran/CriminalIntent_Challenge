@@ -1,0 +1,65 @@
+package com.sweet_roll.android.criminalintent;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
+/**
+ * Created by trand_000 on 12/19/2015.
+ */
+public class Crime {
+    //member fields declaration
+    private UUID mId;
+    private String mTitle;
+    private Date mDate;
+    private DateFormat mDateFormat;
+    private boolean mSolved;
+    private String[] DayOfWeek = {"Sunday","Monday",//an array map of days in a week
+                                    "Tuesday","Wednesday",
+                                    "Thursday","Friday","Saturday"};
+
+    //constructor
+    public Crime()
+    {
+        //generate unique identifier
+        mId = UUID.randomUUID();
+        mDate = new Date();//initialize with current date
+        mDateFormat = DateFormat.getDateInstance();//create and allocate space a DateFormat instance
+        mDateFormat.format(mDate);//initialize DateFormat instance with current date
+    }
+    //get id
+    public UUID getId() {
+        return mId;
+    }
+    //get title
+    public String getTitle() {
+        return mTitle;
+    }
+    //set title
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+    //get crime's date
+    public Date getDate() {
+        return mDate;
+    }
+    //set crime's date
+    public void setDate(Date date) {
+        mDate = date;
+    }
+    //convert date format to string: Wednesday, mm dd, yyyy
+    public String getDateFormatString()
+    {
+        return DayOfWeek[mDateFormat.getCalendar().get(Calendar.DAY_OF_WEEK) - 1] +
+                ", " + mDateFormat.format(mDate);
+    }
+    //get if crime is solved
+    public boolean isSolved() {
+        return mSolved;
+    }
+    //set crime is solved
+    public void setSolved(boolean solved) {
+        mSolved = solved;
+    }
+}
