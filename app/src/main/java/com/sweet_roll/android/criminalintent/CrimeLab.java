@@ -25,13 +25,11 @@ public class CrimeLab{
     private CrimeLab (Context context)
     {
         mCrimes = new ArrayList<Crime>();
-        for(int i = 0;i < 100;i++)//populating the crimes list with boring crimes
-        {
-            Crime crime = new Crime();
-            crime.setTitle("Crime #" + i);
-            crime.setSolved(i%2 == 0);//set solved for every even-numbered crime
-            mCrimes.add(crime);//add newly created crime to the crimes list
-        }
+    }
+    //ADD CRIME
+    public void addCrime(Crime c)
+    {
+        mCrimes.add(c);
     }
     //get crimes list
     public List<Crime> getCrimes()
