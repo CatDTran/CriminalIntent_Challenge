@@ -1,6 +1,9 @@
 package com.sweet_roll.android.criminalintent;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.sweet_roll.android.criminalintent.database.CrimeBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,8 @@ public class CrimeLab{
     private static CrimeLab sCrimeLab;
     private List<Crime> mCrimes;
 
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
     public static CrimeLab get(Context context)
     {
         if(sCrimeLab == null)//if no instance of this class exist
@@ -21,9 +26,11 @@ public class CrimeLab{
         }
         return sCrimeLab;//return an existing instance if it exists
     }
-    //private constructor; can only be called via public get() method
+    //CONSTRUCTOR: PRIVATE, CAN ONLY CALLED BY get()
     private CrimeLab (Context context)
     {
+        mContext = context.getApplicationContext();
+        mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase();//open or create a database for this context
         mCrimes = new ArrayList<Crime>();
     }
     //ADD CRIME
@@ -31,12 +38,12 @@ public class CrimeLab{
     {
         mCrimes.add(c);
     }
-    //get crimes list
+    //GET CRIMES LIST
     public List<Crime> getCrimes()
     {
         return mCrimes;
     }
-    //get a crime object using an ID
+    //GET CRIME BY ID
     public Crime getCrime(UUID id)
     {
         for(Crime crime : mCrimes)

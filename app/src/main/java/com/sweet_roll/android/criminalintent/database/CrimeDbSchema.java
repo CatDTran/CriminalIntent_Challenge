@@ -3,6 +3,7 @@ package com.sweet_roll.android.criminalintent.database;
 /**
  * Created by trand_000 on 1/19/2016.
  */
+//THIS CLASS DEFINE THE SCHEMA FOR OUR SQLITE DATABASE
 public class CrimeDbSchema {
     public static final class CrimeTable{
         public static final String NAME= "crimes";
