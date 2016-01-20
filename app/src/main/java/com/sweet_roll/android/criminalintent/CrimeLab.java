@@ -14,10 +14,9 @@ import java.util.UUID;
  */
 public class CrimeLab{
     private static CrimeLab sCrimeLab;
-    private List<Crime> mCrimes;
-
     private Context mContext;
     private SQLiteDatabase mDatabase;
+
     public static CrimeLab get(Context context)
     {
         if(sCrimeLab == null)//if no instance of this class exist
@@ -31,28 +30,21 @@ public class CrimeLab{
     {
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase();//open or create a database for this context
-        mCrimes = new ArrayList<Crime>();
     }
     //ADD CRIME
     public void addCrime(Crime c)
     {
-        mCrimes.add(c);
+
     }
     //GET CRIMES LIST
     public List<Crime> getCrimes()
     {
-        return mCrimes;
+        return new ArrayList<>();
     }
     //GET CRIME BY ID
     public Crime getCrime(UUID id)
     {
-        for(Crime crime : mCrimes)
-        {
-            if(crime.getId().equals(id))
-            {
-                return crime;
-            }
-        }
+
         return null;
     }
 }
