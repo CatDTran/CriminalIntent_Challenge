@@ -39,7 +39,8 @@ public class CrimeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    @Override//onCreate METHOD
+    //ONCREATE()
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,8 @@ public class CrimeFragment extends Fragment {
         //get crime from the one and only singleton CrimeLab associated with CrimePagerActivity
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
-    @Override//inflate fragment's view
+    //CALLED BY HOSTING ACTIVITY TO CREATE FRAGMENT'S VIEW
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_crime,container,false);
@@ -96,6 +98,7 @@ public class CrimeFragment extends Fragment {
         });
         return v;
     }
+    //ONPAUSED()
 
     private void updateDate() {
         mDateButton.setText(mCrime.getDate().toString());
