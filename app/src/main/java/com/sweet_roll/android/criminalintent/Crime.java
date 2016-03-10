@@ -19,14 +19,16 @@ public class Crime {
                                     "Tuesday","Wednesday",
                                     "Thursday","Friday","Saturday"};
 
-    //constructor
+    //CONSTRUCTOR
     public Crime()
     {
-        //generate unique identifier
-        mId = UUID.randomUUID();
-        mDate = new Date();//initialize with current date
-        mDateFormat = DateFormat.getDateInstance();//create and allocate space a DateFormat instance
-        mDateFormat.format(mDate);//initialize DateFormat instance with current date
+        this(UUID.randomUUID());
+    }
+    //CONSTRUCTOR
+    public Crime(UUID id)
+    {
+        mId = id;
+        mDate = new Date();
     }
     //get id
     public UUID getId() {

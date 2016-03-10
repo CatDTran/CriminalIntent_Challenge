@@ -2,9 +2,11 @@ package com.sweet_roll.android.criminalintent;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sweet_roll.android.criminalintent.database.CrimeBaseHelper;
+import com.sweet_roll.android.criminalintent.database.CrimeCursorWrapper;
 import com.sweet_roll.android.criminalintent.database.CrimeDbSchema;
 import com.sweet_roll.android.criminalintent.database.CrimeDbSchema.CrimeTable;
 
@@ -45,17 +47,41 @@ public class CrimeLab{
     {
         String uuidString = crime.getId().toString();
         ContentValues values = getContentValues(crime);
-        mDatabase.update(CrimeTable.NAME, values,CrimeTable.Cols.UUID + "= ?", new String[]{uuidString});//update table_name where uuid = crime's uuid
+        mDatabase.update(CrimeTable.NAME, values, CrimeTable.Cols.UUID + "= ?", new String[]{uuidString});//update table_name where uuid = crime's uuid
     }
     //GET CRIMES LIST
     public List<Crime> getCrimes()
     {
-        return new ArrayList<>();
+        List<Crime> crimes = new ArrayList<>();
+        CrimeCursorWrapper cursor = queryCrimes(null,null);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast())
+            {
+                crimes.add(cursor.getCrime());
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();//it's important to close cursor when done
+        }
+        return crimes;
     }
     //GET CRIME BY ID
     public Crime getCrime(UUID id)
     {
-        return null;
+        CrimeCursorWrapper cursor = queryCrimes(CrimeTable.Cols.UUID + " = ?", new String[]{id.toString()});
+        try{
+            if (cursor.getCount() == 0)
+            {
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getCrime();
+        }
+        finally {
+            cursor.close();
+        }
     }
     //STORE DATA FOR EACH CRIME IN CONTENTVALUES OBJECT
     private static ContentValues getContentValues(Crime crime)
@@ -66,5 +92,12 @@ public class CrimeLab{
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);//put 1 if solved, 0 otherwise
         return values;
+    }
+    //CALLED TO QUERY FOR CRIME
+    private CrimeCursorWrapper queryCrimes(String whereClause, String[] whereArgs)
+    {
+        //parameters: table_name, all columns, where clause, argument for where clause, group by, having, order by
+        Cursor cursor = mDatabase.query(CrimeTable.NAME, null, whereClause, whereArgs, null, null, null);
+        return new CrimeCursorWrapper(cursor);
     }
 }

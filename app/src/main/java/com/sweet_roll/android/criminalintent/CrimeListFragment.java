@@ -75,6 +75,11 @@ public class CrimeListFragment extends Fragment{
         {
             return mCrimes.size();
         }
+
+        public void setCrimes(List<Crime> crimes)
+        {
+            mCrimes = crimes;
+        }
     }
 
     //////RecyclerView for this fragment///////
@@ -175,6 +180,7 @@ public class CrimeListFragment extends Fragment{
         }
         else//if mAdapter was already initialized
         {
+            mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();
         }
         updateSubtitle();
