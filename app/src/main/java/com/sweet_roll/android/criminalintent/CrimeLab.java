@@ -91,6 +91,7 @@ public class CrimeLab{
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);//put 1 if solved, 0 otherwise
+        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
         return values;
     }
     //CALLED TO QUERY FOR CRIME

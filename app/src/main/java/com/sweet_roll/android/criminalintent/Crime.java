@@ -15,6 +15,7 @@ public class Crime {
     private Date mDate;
     private DateFormat mDateFormat;
     private boolean mSolved;
+    private String mSuspect;
     private String[] DayOfWeek = {"Sunday","Monday",//an array map of days in a week
                                     "Tuesday","Wednesday",
                                     "Thursday","Friday","Saturday"};
@@ -63,5 +64,13 @@ public class Crime {
     //set crime is solved
     public void setSolved(boolean solved) {
         mSolved = solved;
+    }
+    //get suspect name
+    public String getSuspect(){
+        return mSuspect;
+    }
+    //set suspect's name
+    public void setSuspect(String suspect){
+        mSuspect = suspect;
     }
 }
