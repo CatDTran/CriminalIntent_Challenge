@@ -28,6 +28,8 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private Button mReportButton;
+
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
@@ -89,12 +91,25 @@ public class CrimeFragment extends Fragment {
         //WIRING CheckBox'S VIEW AND CODE
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
-        mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+        mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override//update crime's solved property when check box is changed
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //Set crime's solved status
                 mCrime.setSolved(isChecked);
+            }
+        });
+        mReportButton = (Button) v.findViewById(R.id.crime_report);
+        mReportButton.setOnClickListener(new View.OnClickListener()
+        {
+            //called when button is clicked
+            public void onClick(View v)
+            {
+                Intent i = new Intent();//(Intent.ACTION_SEND);//create new intent when clicked
+                i.setAction(Intent.ACTION_SEND);
+                i.setType(("text/plain"));//set intent type to "text/plain"
+                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_suspect));
+                startActivity(i);//send out intent for os to pick an appropriate activity
             }
         });
         return v;
