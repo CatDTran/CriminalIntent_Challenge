@@ -2,6 +2,7 @@ package com.sweet_roll.android.criminalintent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -132,7 +133,12 @@ public class CrimeFragment extends Fragment {
         if(mCrime.getSuspect() != null){
             mSuspectButton.setText(mCrime.getSuspect());
         }
-
+        //guarding against when OS has no contacts app
+        PackageManager packageManager = getActivity().getPackageManager();
+        if(packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null)//ask PackageManager to find activities that match the intent; if not return null
+        {
+            mSuspectButton.setEnabled(false);
+        }
 
         return v;
     }
