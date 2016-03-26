@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -111,13 +112,20 @@ public class CrimeFragment extends Fragment {
             //called when button is clicked
             public void onClick(View v)
             {
-                Intent i = new Intent();//(Intent.ACTION_SEND);//create new intent when clicked
-                i.setAction(Intent.ACTION_SEND);
-                i.setType(("text/plain"));//set intent type to "text/plain"
-                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
-                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_suspect));
-                i = Intent.createChooser(i, getString(R.string.send_report));//forcing an Activities chooser
-                startActivity(i);//send out intent for os to pick an appropriate activity
+                ShareCompat.IntentBuilder.from(getActivity())
+                        .setType("text/plain")
+                        .setText(getCrimeReport())
+                        //.setSubject(getString(R.string.crime_report_subject))
+                        .setChooserTitle(getString(R.string.send_report))
+                        .startChooser();//start an Activity chooser
+
+//                Intent i = new Intent();
+//                i.setAction(Intent.ACTION_SEND);
+//                i.setType(("text/plain"));//set intent type to "text/plain"
+//                i.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+//                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_suspect));
+//                i = Intent.createChooser(i, getString(R.string.send_report));//forcing an Activities chooser
+//                startActivity(i);//send out intent for os to pick an appropriate activity
             }
         });
         //CHOOSE SUSPECT BUTTON
