@@ -36,7 +36,8 @@ public class CrimeFragment extends Fragment {
     private Button  mSuspectButton;
     private Button mReportButton;
     private Button mCallSuspectButton;
-    private long mSuspectID;
+    private String mSuspectID;
+    private String mSuspectNumber;
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -139,7 +140,8 @@ public class CrimeFragment extends Fragment {
         });
         //call suspect button
         mCallSuspectButton = (Button) v.findViewById(R.id.call_suspect);
-        final Intent callSuspect = new Intent(Intent.ACTION_DIAL, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        Uri number = Uri.parse("tel: " + mSuspectNumber);
+        final Intent callSuspect = new Intent(Intent.ACTION_DIAL, number);
         mCallSuspectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,8 +233,13 @@ public class CrimeFragment extends Fragment {
                 if (c.getCount() == 0)
                     return;
                 c.moveToFirst();//move to first row
+                mSuspectID = c.getString(0);
                 String suspect = c.getString(1);//get the second column of the first row which is now the name of the contact
-                mSuspectID = c.getLong(0);
+                String[] projection = new String[] {ContactsContract.CommonDataKinds.Phone._ID,ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+                Cursor d = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,projection,null,null,null);
+                int dCol = d.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                d.
+                //mSuspectNumber = d.getString(dCol);
                 mCrime.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
             }
